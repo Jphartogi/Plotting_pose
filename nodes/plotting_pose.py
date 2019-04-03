@@ -27,7 +27,7 @@ class plotting_pose():
         self.sub2 = rospy.Subscriber("/robot_pose",Pose,self.pose_callback)
         self.human_pose = [[0,1,2],[1,2,1],[0,1,1],[1,2,0]] # just for testing
         self.test_robot_pose = [[2.0,0.0,3.0],[1.0,4.0,6.0],[2.0,3.0,0.0],[1.0,3.0,6.0]]
-        self.robot_pose_callback()
+        
 
     def robot_pose_callback(self,msg):
         position = msg.pose.pose.position
