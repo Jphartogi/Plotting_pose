@@ -44,9 +44,15 @@ with open('10_round_data.csv', 'rb') as csvfile:
     count_chair = 0
     count_sofa = 0
     dist_sofa = []
+    dist_sofa2 = []
     dist_chair = []
+    dist_chair2 = []
+    dist_chair3 =[]
     angle_sofa = []
+    angle_sofa2 = []
     angle_chair = []
+    angle_chair2 = []
+    angle_chair3 = []
     # distance = []
     # theta = []
     u = 0
@@ -59,50 +65,110 @@ with open('10_round_data.csv', 'rb') as csvfile:
         y1 = float(y[i])
         y2 = float(y_pose_person[u])
         
+        print " orang ke : ",u
         dist = math.sqrt( ((x2-x1)**2) + ((y2-y1)**2) )
         # distance.append(dist)
+        
+        # if u == 2:
+        #     yaw1 = (float(yaw[i]) * 180 / math.pi) - 90  # change to degree
+        # elif u == 0 or u == 3:
+        #     yaw1 = (float(yaw[i]) * 180 / math.pi) + 90 
+        # else:
+        #     yaw1 = yaw1 = (float(yaw[i]) * 180 / math.pi)
+        
 
-        # yaw1 = float(yaw[i])
-        # yaw2 = float(yaw_pose_person[u])
-        # angle = abs(y2 - y1) * 180 / math.pi
+        if u == 4:
+            yaw1 = 180 - abs(float(float(yaw[i])  * 180 / math.pi))
+        else:
+            yaw1 = (float(yaw[i]) * 180 / math.pi)
 
-        # alternative for angle 
-        angle = math.atan(abs((x2-x1)/(y2-y1)))
-        angle = angle * 180 / math.pi # change to degree
+        yaw2 = float(yaw_pose_person[u])  * 180 / math.pi # change to degree
+        angle =abs(abs(yaw2) - abs(yaw1))
 
+
+        # # alternative for angle 
+        # angle = math.atan(abs((x2-x1)/(y2-y1)))
+        # angle = angle * 180 / math.pi # change to degree
+        print("yaw data , yaw orang  :",yaw1,yaw2)
+        print(" hasil pengurangan ",angle)
+        print(" ")
         # theta.append(angle)
         u = u+1
-
-        if angle > 60:
-            dist_chair.append(dist)
-            angle_chair.append(angle)
-            count_chair = count_chair + 1
+        if u > 5:
+            pass
         else:
-            dist_sofa.append(dist)
-            angle_sofa.append(angle)
-            count_sofa = count_sofa + 1
+            if angle > 60:
+                
+                if u == 1:
+                    dist_chair.append(dist)
+                    angle_chair.append(angle)
+                    
+                elif u == 3:
+                    dist_chair2.append(dist)
+                    angle_chair2.append(angle)
+                    
+                else:
+                    dist_chair3.append(dist)
+                    angle_chair3.append(angle)
+                    count_chair = count_chair + 1
 
-   
+            else:
+                
+                if u == 2:
+                    dist_sofa.append(dist)
+                    angle_sofa.append(angle)
+                    count_sofa = count_sofa + 1
+             
+                else:
+                    dist_sofa2.append(dist)
+                    angle_sofa2.append(angle)
+      
+    ########################### sofa #####################################
     fig = plt.figure()
-    plt.plot(dist_sofa, angle_sofa, 'ro')
-    plt.axis([0, 1, 0, 35])
+    # plt.scatter(dist_sofa, angle_sofa, marker='o',c=10*10)
+    sofa1 = plt.scatter(dist_sofa, angle_sofa,s=6000,c = "red",label='person 2')
+    sofa2 = plt.scatter(dist_sofa2, angle_sofa2,s=6000,c = "blue",label='person 5')
+    
+    # plt.axis('tight')
+    plt.axis([0.4, 0.95, 0, 25])
    
-    plt.xlabel('Distance (m) ', fontsize=18)
-    plt.ylabel('Angle ( Degree ) ', fontsize=16)
+    plt.xlabel('Distance (m) ', fontsize=90)
+    plt.ylabel('Angle ( Degree ) ', fontsize=90)
     plt.grid(True, lw = 2, ls = ':', c = '.5')
-    plt.rcParams.update({'font.size': 18})
+    plt.rcParams.update({'font.size': 90})
+    plt.legend((sofa1,sofa2),
+           ('person2', 'person5'),
+           scatterpoints=1,
+           loc='lower left',
+           ncol=3,
+           fontsize=30)
     plt.show()
     fig.savefig('Result_Sofa.jpg')
 
-       
+
+
+
+    ######################## chair #########################################
+
+
     fig2 = plt.figure()
-    plt.plot(dist_chair, angle_chair, 'ro')
-    plt.axis([0, 1, 70, 100])
+    chair1 = plt.scatter(dist_chair, angle_chair, s=6000,c = "green",label='person 1')
+    chair2 = plt.scatter(dist_chair2, angle_chair2, s=6000,c = "purple",label='person 3')
+    chair3 = plt.scatter(dist_chair3, angle_chair3, s=6000,c = "yellow",label='person 4')
+    plt.axis([0.4, 0.95, 70, 95])
+    # plt.axis('tight')
+    
    
-    plt.xlabel('Distance (m) ', fontsize=18)
-    plt.ylabel('Angle ( Degree ) ', fontsize=16)
+    plt.xlabel('Distance (m) ', fontsize=90)
+    plt.ylabel('Angle ( Degree ) ', fontsize=90)
     plt.grid(True, lw = 2, ls = ':', c = '.5')
-    plt.rcParams.update({'font.size': 18})
+    plt.rcParams.update({'font.size': 90})
+    plt.legend((chair1,chair2,chair3),
+           ('person1', 'person3','person4'),
+           scatterpoints=1,
+           loc='lower left',
+           ncol=3,
+           fontsize=30)
     plt.show()
     fig2.savefig('Result_Chair.jpg')
 
