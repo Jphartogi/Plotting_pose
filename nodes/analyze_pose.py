@@ -64,7 +64,6 @@ with open('10_round_data.csv', 'rb') as csvfile:
         x2 = float(x_pose_person[u])
         y1 = float(y[i])
         y2 = float(y_pose_person[u])
-        
         print " orang ke : ",u
         dist = math.sqrt( ((x2-x1)**2) + ((y2-y1)**2) )
         # distance.append(dist)
@@ -76,14 +75,20 @@ with open('10_round_data.csv', 'rb') as csvfile:
         # else:
         #     yaw1 = yaw1 = (float(yaw[i]) * 180 / math.pi)
         
-
-        if u == 4:
-            yaw1 = 180 - abs(float(float(yaw[i])  * 180 / math.pi))
-        else:
-            yaw1 = (float(yaw[i]) * 180 / math.pi)
+        # this configuration is only for this data 
+       
+        yaw1 = (float(yaw[i]) * 180 / math.pi)
 
         yaw2 = float(yaw_pose_person[u])  * 180 / math.pi # change to degree
-        angle =abs(abs(yaw2) - abs(yaw1))
+
+        if u == 0:
+            angle =abs(abs(yaw2) - abs(yaw1))
+        elif u == 1 or u == 4:
+            angle = 180-(abs(yaw1))-(abs(yaw2))
+        elif u == 2 or u == 3:
+            angle = 180-(abs(yaw1))+(abs(yaw2))
+        
+
 
 
         # # alternative for angle 
@@ -139,9 +144,10 @@ with open('10_round_data.csv', 'rb') as csvfile:
     plt.legend((sofa1,sofa2),
            ('person2', 'person5'),
            scatterpoints=1,
-           loc='lower left',
+           loc='upper left',
            ncol=3,
-           fontsize=30)
+           fontsize=30,
+           bbox_to_anchor=(0, -0.25))
     plt.show()
     fig.savefig('Result_Sofa.jpg')
 
@@ -155,7 +161,7 @@ with open('10_round_data.csv', 'rb') as csvfile:
     chair1 = plt.scatter(dist_chair, angle_chair, s=6000,c = "green",label='person 1')
     chair2 = plt.scatter(dist_chair2, angle_chair2, s=6000,c = "purple",label='person 3')
     chair3 = plt.scatter(dist_chair3, angle_chair3, s=6000,c = "yellow",label='person 4')
-    plt.axis([0.4, 0.95, 70, 95])
+    plt.axis([0.4, 0.95, 75, 105])
     # plt.axis('tight')
     
    
@@ -166,9 +172,10 @@ with open('10_round_data.csv', 'rb') as csvfile:
     plt.legend((chair1,chair2,chair3),
            ('person1', 'person3','person4'),
            scatterpoints=1,
-           loc='lower left',
+           loc='upper left',
            ncol=3,
-           fontsize=30)
+           fontsize=30,
+           bbox_to_anchor=(0, -0.25))
     plt.show()
     fig2.savefig('Result_Chair.jpg')
 
