@@ -6,3 +6,7 @@ This package analyze the behaviour of a specific bag file using a matplotlib lib
 It shows the result of person approaching robot in terms of angle and distance from the robot to the person.
 
 ![alt text](https://github.com/Jphartogi/Plotting_pose/blob/master/nodes/Result_Chair.jpg)
+
+
+
+![alt text](https://github.com/Jphartogi/Plotting_pose/blob/master/nodes/Result_Sofa.jpg)
